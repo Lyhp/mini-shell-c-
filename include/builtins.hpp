@@ -10,4 +10,11 @@
 #include <string>
 #include <vector>
 
+class Builtins {
+public:
+
+static bool is_builtin(const std::string& program);
+
+static int execute(const Command& cmd);
+
 #endif
