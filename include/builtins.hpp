@@ -26,4 +26,6 @@ static int cmd_history(const std::vector<std::string>& args);
 static int cmd_jobs(const std::vector<std::string>& args);
 };
 
+extern std::vector<std::string> command_history;
+
 #endif
