@@ -43,4 +43,38 @@ Pipeline Parser::parse_line(const std::string& line) {
     }
     
     return pipeline;
+
+    // TOKENIZACIÓN (divide texto en palabras)
+
+  std::vector<std::string> Parser::tokenize(const std::string& text) {
+    std::vector<std::string> tokens;
+    std::string current;
+    bool in_quotes = false;
+    
+    for (char c : text) {
+       
+        if (c == '"' || c == '\'') {
+            in_quotes = !in_quotes;
+            continue;
+        }
+        
+        // Espacio separa tokens (excepto dentro de comillas)
+        if (std::isspace(c) && !in_quotes) {
+            if (!current.empty()) {
+                tokens.push_back(current);
+                current.clear();
+            }
+            continue;
+        }
+        
+        current += c;
+    }
+    
+   
+    if (!current.empty()) {
+        tokens.push_back(current);
+    }
+    
+    return tokens;
+}
 }
