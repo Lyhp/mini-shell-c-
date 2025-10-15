@@ -19,4 +19,7 @@ static std::string resolve_path(const std::string& program);
 static void collect_zombies();
 };
 
+// Variables globales para jobs en background
+extern std::vector<pid_t> background_jobs;
+
 #endif
