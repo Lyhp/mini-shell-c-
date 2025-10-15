@@ -34,7 +34,7 @@ void Shell::run() {
             process_line(line);
         }
     }
-   }
+}
 
  // PROMPT
 void Shell::show_prompt() {
@@ -57,3 +57,26 @@ void Shell::show_prompt() {
     std::cout << "\033[1;34m" << cwd << "\033[0m$ ";
     std::cout.flush();
   }
+
+  // LECTURA
+
+std::string Shell::read_line() {
+    std::string line;
+    std::getline(std::cin, line);
+    return line;
+}
+
+// PROCESAMIENTO
+
+void Shell::process_line(const std::string& line) {
+    // Parsear línea → Pipeline
+    Pipeline pipeline = Parser::parse_line(line);
+    
+    if (pipeline.is_empty()) {
+        return;
+    }
+    
+    // Ejecutar pipeline
+    last_exit_code = Executor::execute(pipeline);
+}
+
