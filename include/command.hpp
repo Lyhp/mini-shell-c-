@@ -25,7 +25,21 @@ struct Command {
     
     char** to_argv() const;   
     static void free_argv(char** argv); 
-    void print() const;      
+    void print() const; 
+
+/**
+ * Representa una secuencia de comandos conectados con pipes.
+ */
+    struct Pipeline {
+    std::vector<Command> commands;
+    bool background;
+
+    Pipeline() : background(false) {}
+    
+    int size() const { return commands.size(); }
+    bool is_empty() const { return commands.empty(); }
+};
+
 };
 
 #endif
