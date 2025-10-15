@@ -1,3 +1,46 @@
 #include "parser.hpp"
 #include <algorithm>
 #include <cctype>
+
+//Convierte una linea de texto en un pipeline de comandos
+
+Pipeline Parser::parse_line(const std::string& line) {
+    Pipeline pipeline;
+    
+    
+    std::string trimmed = trim(line);
+    if (trimmed.empty() || trimmed[0] == '#') {
+        return pipeline;
+    }
+    
+    // Paso 1: Dividir por pipes
+    std::vector<std::string> parts = split_by_pipes(trimmed);
+    
+    // Paso 2: Detectar & al final
+    bool bg = false;
+    if (!parts.empty()) {
+        std::string& last = parts.back();
+        size_t amp_pos = last.find('&');
+        if (amp_pos != std::string::npos) {
+            bg = true;
+            last = trim(last.substr(0, amp_pos));
+        }
+    }
+    
+    // Paso 3: Parsear cada comando
+    for (const auto& part : parts) {
+        std::vector<std::string> tokens = tokenize(part);
+        if (!tokens.empty()) {
+            Command cmd = parse_command(tokens);
+            pipeline.commands.push_back(cmd);
+        }
+    }
+    
+    // Paso 4: Marcar background si aplica
+    if (bg && !pipeline.commands.empty()) {
+        pipeline.background = true;
+        pipeline.commands.back().background = true;
+    }
+    
+    return pipeline;
+}
