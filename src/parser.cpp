@@ -76,5 +76,37 @@ Pipeline Parser::parse_line(const std::string& line) {
     }
     
     return tokens;
-}
+ }
+
+  // DIVISIÓN POR PIPES
+
+  std::vector<std::string> Parser::split_by_pipes(const std::string& line) {
+    std::vector<std::string> parts;
+    std::string current;
+    bool in_quotes = false;
+    
+    for (char c : line) {
+        if (c == '"' || c == '\'') {
+            in_quotes = !in_quotes;
+            current += c;
+        } 
+        else if (c == '|' && !in_quotes) {
+            // Pipe encontrado fuera de comillas
+            if (!current.empty()) {
+                parts.push_back(trim(current));
+                current.clear();
+            }
+        } 
+        else {
+            current += c;
+        }
+    }
+    
+    // Agregar última parte
+    if (!current.empty()) {
+        parts.push_back(trim(current));
+    }
+    
+    return parts;
+  }
 }
