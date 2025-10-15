@@ -21,22 +21,18 @@ minishell es un intérprete de comandos interactivo que permite ejecutar program
 ## Compilación y Ejecución
 
 ### Compilar el proyecto
-bash
 make
 
 
 ### Ejecutar el shell
-bash
 ./minishell
 
 
 ### Limpiar archivos generados
-bash
 make clean
 
 
 ### Compilar y ejecutar directamente
-bash
 make run
 
 
