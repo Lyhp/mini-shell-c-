@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <cstring>
+#include <algorithm>
 
 
 //Jobs en background
