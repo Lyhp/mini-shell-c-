@@ -5,6 +5,7 @@
 #include "signals.hpp"
 #include <iostream>
 #include <unistd.h>
+#include <cstring>
 #include <climits>
 
 Shell::Shell() : last_exit_code(0) {
