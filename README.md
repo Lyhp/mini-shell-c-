@@ -74,33 +74,33 @@ make run
 ## Ejemplos de Uso
 
 ### Comandos básicos
-bash
+
 minishell$ ls -la
 minishell$ pwd
 minishell$ cd /tmp
 
 
 ### Redirecciones
-bash
+
 minishell$ ls > archivos.txt          # Redirigir salida
 minishell$ cat < entrada.txt          # Redirigir entrada
 minishell$ echo "nuevo" >> log.txt    # Anexar a archivo
 
 
 ### Pipes
-bash
+
 minishell$ ls -l | grep cpp           # Un pipe
 minishell$ cat file.txt | grep error | wc -l    # Múltiples pipes
 
 
 ### Procesos en background
-bash
+
 minishell$ sleep 10 &                 # Ejecutar en background
 minishell$ jobs                        # Ver procesos activos
 
 
 ### Comandos internos
-bash
+
 minishell$ help                        # Ver ayuda
 minishell$ history                     # Ver historial
 minishell$ exit                        # Salir del shell
