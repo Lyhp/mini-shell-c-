@@ -16,5 +16,10 @@ public:
 
 static Pipeline parse_line(const std::string& line);
 
+private:
+static std::vector<std::string> tokenize(const std::string& text);
+static std::vector<std::string> split_by_pipes(const std::string& line);
+static Command parse_command(const std::vector<std::string>& tokens);
 };
+
 #endif
