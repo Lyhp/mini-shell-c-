@@ -170,3 +170,82 @@ int Executor::execute_pipeline(const Pipeline& pipeline) {
     
     return last_status;
 }
+
+// REDIRECCIONES (< > >>)
+
+bool Executor::setup_redirections(const Command& cmd) {
+    if (!cmd.input_file.empty()) {
+        int fd = open(cmd.input_file.c_str(), O_RDONLY);
+        if (fd < 0) {
+            std::cerr << "Error: no se puede abrir " << cmd.input_file << std::endl;
+            return false;
+        }
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+    
+    if (!cmd.output_file.empty()) {
+        int flags = O_WRONLY | O_CREAT;
+        flags |= cmd.append_output ? O_APPEND : O_TRUNC;
+        
+        int fd = open(cmd.output_file.c_str(), flags, 0644);
+        if (fd < 0) {
+            std::cerr << "Error: no se puede crear " << cmd.output_file << std::endl;
+            return false;
+        }
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+    return true;
+}
+
+//BUSQUEDA EN PATH
+
+std::string Executor::resolve_path(const std::string& program) {
+    if (program.find('/') != std::string::npos) {
+        return program;
+    }
+    
+    //Buscar en PATH
+    const char* path_env = getenv("PATH");
+    if (!path_env) {
+        return program;
+    }
+    
+    std::string path_str(path_env);
+    size_t start = 0;
+    size_t end;
+    
+    while ((end = path_str.find(':', start)) != std::string::npos) {
+        std::string dir = path_str.substr(start, end - start);
+        std::string full_path = dir + "/" + program;
+        
+        if (access(full_path.c_str(), X_OK) == 0) {
+            return full_path;
+        }
+        start = end + 1;
+    }
+    
+    //Ultima entrada en PATH
+    std::string dir = path_str.substr(start);
+    std::string full_path = dir + "/" + program;
+    if (access(full_path.c_str(), X_OK) == 0) {
+        return full_path;
+    }
+    
+    return program;
+}
+
+//RECOLECCIÓN DE ZOMBIES
+
+void Executor::collect_zombies() {
+    //Recolectar procesos terminados sin bloquear
+    pid_t pid;
+    while ((pid = waitpid(-1, nullptr, WNOHANG)) > 0) {
+        auto it = std::find(background_jobs.begin(), background_jobs.end(), pid);
+        if (it != background_jobs.end()) {
+            std::cout << "[Job completado] PID " << pid << std::endl;
+            background_jobs.erase(it);
+        }
+    }
+}
