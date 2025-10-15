@@ -155,4 +155,22 @@ Command Parser::parse_command(const std::vector<std::string>& tokens) {
     
     return cmd;
   }
+
+  //trim elimina espacios al inicio/final
+
+std::string Parser::trim(const std::string& str) {
+    size_t start = 0;
+    size_t end = str.length();
+    
+
+    while (start < end && std::isspace(str[start])) {
+        start++;
+    }
+    
+
+    while (end > start && std::isspace(str[end - 1])) {
+        end--;
+    }
+    
+    return str.substr(start, end - start);
 }
