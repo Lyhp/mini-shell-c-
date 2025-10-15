@@ -43,6 +43,7 @@ Pipeline Parser::parse_line(const std::string& line) {
     }
     
     return pipeline;
+}
 
     // TOKENIZACIÓN (divide texto en palabras)
 
