@@ -13,6 +13,13 @@ public:
 Shell();
 //Inicia el loop principal del shell
 void run();
+
+private:
+void show_prompt();
+std::string read_line();
+void process_line(const std::string& line);
+int last_exit_code;
 };
+
 
 #endif
