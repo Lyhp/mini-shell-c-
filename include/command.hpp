@@ -26,6 +26,7 @@ struct Command {
     char** to_argv() const;   
     static void free_argv(char** argv); 
     void print() const; 
+};
 
 /**
  * Representa una secuencia de comandos conectados con pipes.
@@ -40,6 +41,5 @@ struct Command {
     bool is_empty() const { return commands.empty(); }
 };
 
-};
 
 #endif
