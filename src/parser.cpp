@@ -109,4 +109,50 @@ Pipeline Parser::parse_line(const std::string& line) {
     
     return parts;
   }
+
+  // PARSEO DE COMANDO INDIVIDUAL
+
+Command Parser::parse_command(const std::vector<std::string>& tokens) {
+    Command cmd;
+    
+    if (tokens.empty()) return cmd;
+    
+    // Primer token = programa
+    cmd.program = tokens[0];
+    
+    
+    for (size_t i = 1; i < tokens.size(); i++) {
+        const std::string& token = tokens[i];
+        
+        if (token == "<") {
+            // Redirección de entrada
+            if (i + 1 < tokens.size()) {
+                cmd.input_file = tokens[++i];
+            }
+        }
+        else if (token == ">>") {
+            // Redirección append
+            if (i + 1 < tokens.size()) {
+                cmd.output_file = tokens[++i];
+                cmd.append_output = true;
+            }
+        }
+        else if (token == ">") {
+            // Redirección truncate
+            if (i + 1 < tokens.size()) {
+                cmd.output_file = tokens[++i];
+                cmd.append_output = false;
+            }
+        }
+        else if (token == "&") {
+            // Background
+            cmd.background = true;
+        }
+        else {
+            cmd.args.push_back(token);
+        }
+    }
+    
+    return cmd;
+  }
 }
