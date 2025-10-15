@@ -35,3 +35,25 @@ void Shell::run() {
         }
     }
    }
+
+ // PROMPT
+void Shell::show_prompt() {
+    // Obtener usuario
+    const char* user = getenv("USER");
+    if (!user) user = "user";
+    
+    // Obtener hostname
+    char hostname[256];
+    gethostname(hostname, sizeof(hostname));
+    
+    // Obtener directorio actual
+    char cwd[PATH_MAX];
+    if (getcwd(cwd, sizeof(cwd)) == nullptr) {
+        strcpy(cwd, "?");
+    }
+    
+    // Formato: usuario@host:ruta$
+    std::cout << "\033[1;32m" << user << "@" << hostname << "\033[0m:";
+    std::cout << "\033[1;34m" << cwd << "\033[0m$ ";
+    std::cout.flush();
+  }
