@@ -17,3 +17,34 @@ char** Command::to_argv() const {
     argv[total - 1] = nullptr;
     return argv;
 }
+
+//Libera memoria de to_argv()
+void Command::free_argv(char** argv) {
+    if (!argv) return;
+    
+    //Liberar cada string
+    for (int i = 0; argv[i] != nullptr; i++) {
+        free(argv[i]);
+    }
+    
+    //Liberar array
+    delete[] argv;
+}
+
+//Para debugging
+void Command::print() const {
+    std::cout << "Comando: " << program;
+    for (const auto& arg : args) {
+        std::cout << " " << arg;
+    }
+    if(!input_file.empty()) {
+        std::cout << " < " << input_file;
+    }
+    if(!output_file.empty()) {
+        std::cout << (append_output ? " >> " : " > ") << output_file;
+    }
+    if(background) {
+        std::cout << " &";
+    }
+    std::cout << std::endl;
+}
