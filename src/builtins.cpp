@@ -107,3 +107,33 @@ int Builtins::cmd_help(const std::vector<std::string>& args) {
     std::cout << std::endl;
     return 0;
 }
+
+//COMANDO: history (historial)
+
+int Builtins::cmd_history(const std::vector<std::string>& args) {
+    if (command_history.empty()) {
+        std::cout << "Historial vacío" << std::endl;
+        return 0;
+    }
+    
+    for (size_t i = 0; i < command_history.size(); i++) {
+        std::cout << "  " << (i + 1) << "  " << command_history[i] << std::endl;
+    }
+    
+    return 0;
+}
+
+//COMANDO: jobs (listar procesos en background)
+
+int Builtins::cmd_jobs(const std::vector<std::string>& args) {
+    if (background_jobs.empty()) {
+        std::cout << "No hay jobs en background" << std::endl;
+        return 0;
+    }
+    
+    std::cout << "Jobs activos:" << std::endl;
+    for (size_t i = 0; i < background_jobs.size(); i++) {
+        std::cout << "  [" << (i + 1) << "]  PID " << background_jobs[i] << std::endl;
+    }
+    return 0;
+}
