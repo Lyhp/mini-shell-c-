@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <cstring>
 
+
 //Jobs en background
 std::vector<pid_t> background_jobs;
 
