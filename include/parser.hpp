@@ -10,4 +10,11 @@
 #include <string>
 #include <vector>
 
+class Parser {
+public:
+//Convierte una línea completa en un Pipeline ejecutable
+
+static Pipeline parse_line(const std::string& line);
+
+};
 #endif
